@@ -305,3 +305,13 @@ https://technicalbook.jp/css%E6%96%87%E5%AD%97%E3%81%AE%E8%89%B2%E3%82%92%E4%B8%
 
 http://blog.shuffleee.com/3120/
 http://blog.shuffleee.com/demo/bootstrap/offset.php
+--------------------------------------------------------------------------------
+[heroku再作成]
+heroku apps:destroy --app アプリ名 --confirm アプリ名
+heroku create
+heroku config MAILER,TWITTER,FACEBOOK
+heroku config:add SECRET_TOKEN="$(bundle exec rake secret)"
+update DevelopersSite for TWITTER,FACEBOOK
+update production.rb for MAILER
+git push heroku master
+heroku run rake db:migrate
