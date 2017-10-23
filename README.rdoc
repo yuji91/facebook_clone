@@ -315,3 +315,21 @@ update DevelopersSite for TWITTER,FACEBOOK
 update production.rb for MAILER
 git push heroku master
 heroku run rake db:migrate
+--------------------------------------------------------------------------------
+[[done]]
+[SNS_file]
+c9 open config/initializers/devise.rb
+c9 open .env
+c9 open .gitignore
+#dotenv-rails
+.env
+
+https://qiita.com/inabe49/items/16ee3d9d1ce68daa9fff
+--------------------------------------------------------------------------------
+[SNS]
+heroku config:add FACEBOOK_ID_PRODUCTION=メモしておいたID値
+heroku config:add FACEBOOK_SECRET_PRODUCTION=メモしておいたAppSecret値
+heroku config:add TWITTER_ID_PRODUCTION=achieve_producitonのConsumer Key（API Key）の値
+heroku config:add TWITTER_SECRET_PRODUCTION=achieve_producitonのConsumer Secret（API Secret）の値
+--------------------------------------------------------------------------------
+[[todo]]
