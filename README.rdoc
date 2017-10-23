@@ -1,19 +1,26 @@
 == README
-
-* HTML,CSS,Bootstrapを使用して、現実のinstagramアプリに似せたデザインにすること(任意　詳しくは後述）
-* pictureの投稿機能・編集機能・一覧機能・削除機能があること
+- HTML,CSS,Bootstrapを使用して、現実のfacebookアプリに似せたデザインにすること(任意 詳しくは後述)
+- topic機能（一覧、作成、詳細、編集、更新、削除）があること
+- topicとuserが結びついていること
+- topicに投稿者が表示されること
+- コメント機能（作成、編集、更新、削除）があること
+- コメント機能が、ajaxで実装されていること　※更新・編集はajax化しなくて良い
+- topicとコメントは結びついていること
+- 友達機能があること(フォロー、フォロワー)
 - ログイン機能があること
-* ログイン機能には、メール認証機能があること
-* facebookとtwitterでログインできるようにすること
-* UserとPictureをひも付けて誰がPictureを投稿したか分かるようにすること
-* gitで管理していること
-* gitに上げるべきではないIDやパスワードなどは環境変数化すること
-* Githubで管理していること、そしてソースコードを送信したリポジトリを提出すること
-* Herokuにアップロードしてある状態であること
-* エラーメッセージとフラッシュメッセージが適切に表示されること
-- 管理画面があること(dive12を参照)
-- 例外処理を行うこと(dive13を参照)
-* 適切に日本語化すること
+- ログイン機能には、メール認証機能があること
+- userに、プロフィール画像が登録できるようにすること
+- メッセージ機能があること
+- Facebook・Twitterでログインできるようにすること
+- gitで管理していること
+- gitに上げるべきではないIDやパスワードなどは環境変数化すること
+- Githubで管理していること、そしてソースコードを送信したリポジトリを提出すること
+- エラーメッセージとフラッシュメッセージが適切に表示されること
+- 例外処理を行うこと
+- 適切に日本語化すること
+- アプリに必要なシードデータの用意があること（Userやtopicやcomment)
+- awsで公開すること(Unicorn、nginxを使用すること)
+- Capistranoを使用して、自動デプロイを行うこと
 
 [TODO]
 * gem install bundler
@@ -138,3 +145,163 @@ git remote add origin git@github.com:yuji91/XXX.git
 
 [TODO]
 add relational to users ex:)has_many
+
+
+--------------------------------------------------------------------------------
+現在、Cloud9ではTwitterの登録ができなくなっております。
+Cloud9をお使いの方は本番環境のみで登録をお願いします。(2017/10/18
+
+--------------------------------------------------------------------------------
+[rails g]
+
+rails g model picture caption:text user:references
+rails generate migration add_picture_to_pictures picture:string
+mount_uploader :picture, PictureUploader
+
+user.rb
+has_many :pictures, dependent: :destroy
+
+rake db:migrate
+
+rails g controller pictures
+
+add_picture_to_picture
+choose_new_or_edit を実装するか否か
+_form.html.erb
+<%= form_for(@picture, url: choose_new_or_edit) do |f| %>
+ #省略
+<% end %>
+
+--> confirmActionが不要のため、削除
+本来はpictures_helper.rbに定義する
+
+app/assets/stylesheets/normalize.css
+
+class Picture < ActiveRecord::Base
+  belongs_to :user
+  #mount_uploader :picture, PictureUploader
+  validates  :caption, length: { maximum: 140 }
+end
+
+replace 大文字と小文字を区別せずに置換していた
+
+------------------------------------------------
+[画像アップロード]
+rails g uploader Picture
+
+
+class Picture < ActiveRecord::Base
+  belongs_to :user
+  mount_uploader :picture, PictureUploader
+  validates  :caption, length: { maximum: 140 }
+end
+
+SEE_ALSO:http://igarashikuniaki.net/rails_textbook/picture-upload.html
+https://cre8cre8.com/rails/upload-image.htm
+https://qiita.com/shizuma/items/1c655dadd2e04b3990a8
+https://qiita.com/dharry/items/f593d96c1b0269182922
+abbreviation
+http://maeharin.hatenablog.com/entry/20130212/rails_generate
+
+--------------------------------------------------------------------------------
+sudo apt-get install imagemagick --fix-missing
+
+class PictureUploader < CarrierWave::Uploader::Base
+  include CarrierWave::MiniMagick
+  process resize_to_limit: [400, 400]
+  
+gem 'twitter-bootstrap-rails'
+rails generate bootstrap:install static
+
+http://www.hts-web.biz/bootstrap-button/
+
+--------------------------------------------------------------------------------
+[日本語化について_設定ファイルの変更]
+require File.expand_path('../boot', __FILE__)
+
+require 'rails/all'
+
+# Require the gems listed in Gemfile, including any gems
+# you've limited to :test, :development, or :production.
+Bundler.require(*Rails.groups)
+
+module Workspace
+  class Application < Rails::Application
+    # Settings in config/environments/* take precedence over those specified here.
+    # Application configuration should go into files in config/initializers
+    # -- all .rb files in that directory are automatically loaded.
+
+    # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
+    # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
+    # config.time_zone = 'Central Time (US & Canada)'
+
+    # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
+    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
+      config.i18n.default_locale = :ja
+
+    # Do not swallow errors in after_commit/after_rollback callbacks.
+    config.active_record.raise_in_transactional_callbacks = true
+    
+    #add this CODE 
+    config.action_view.field_error_proc = proc { |html_tag, instance| html_tag }
+  end
+end
+--------------------------------------------------------------------------------
+[日本語化について_必要なgem,ja.ymlの作成]
+gem 'rails-i18n'
+http://blog.otsukasatoshi.com/entry/2016/04/17/024627
+
+config/locals/ja.yml
+
+# モデル名
+ja:
+  activerecord:
+    models:
+      picture: 写真
+
+# モデルの属性名
+ja:
+  activerecord:
+    attributes:
+      picture:
+        picture: 写真
+        caption: 説明
+--------------------------------------------------------------------------------
+[アップロードした画像をViewで表示]
+https://www.rubylife.jp/rails/template/index8.html
+http://d.hatena.ne.jp/akitsukada/20110530/1307027950
+http://blog.otsukasatoshi.com/entry/2017/08/10/165520
+http://ria10.hatenablog.com/entry/20120215/1329297459
+<%= link_to(picture) do %>
+    <%= image_tag picture.picture if picture.picture? %>
+<% end %>
+--------------------------------------------------------------------------------
+[migrationFile_Deviceの編集]
+class AddConfirmableToDevise < ActiveRecord::Migration
+    #execute("UPDATE users SET confirmed_at = NOW()")
+    execute("UPDATE users SET confirmed_at = date('now')")
+https://stackoverflow.com/questions/41116400/no-such-function-now-during-migration
+--------------------------------------------------------------------------------
+[AssetPreCompile]
+heroku run rake db:migrate
+
+config/environments/production.rb
+config.assets.compile = true
+
+git ls-files
+git rm -rf public/assets
+git add .
+
+rake assets:precompile RAILS_ENV=production
+git push heroku master
+
+--------------------------------------------------------------------------------
+[Bootstrap]
+https://tonari-it.com/bootstrap-container/
+<div class="container"></div>
+
+https://yossense.com/br-do-not-use/
+https://technicalbook.jp/css%E6%96%87%E5%AD%97%E3%81%AE%E8%89%B2%E3%82%92%E4%B8%80%E9%83%A8%E3%81%A0%E3%81%91%E5%A4%89%E6%9B%B4%E3%81%95%E3%81%9B%E3%81%9F%E3%81%84%E5%A0%B4%E5%90%88%E3%81%AFclass%E3%82%92%E4%BD%BF%E3%81%86/
+
+http://blog.shuffleee.com/3120/
+http://blog.shuffleee.com/demo/bootstrap/offset.php
