@@ -1,26 +1,27 @@
 == README
 - HTML,CSS,Bootstrapを使用して、現実のfacebookアプリに似せたデザインにすること(任意 詳しくは後述)
-- topic機能（一覧、作成、詳細、編集、更新、削除）があること
-- topicとuserが結びついていること
-- topicに投稿者が表示されること
-- コメント機能（作成、編集、更新、削除）があること
-- コメント機能が、ajaxで実装されていること　※更新・編集はajax化しなくて良い
-- topicとコメントは結びついていること
-- 友達機能があること(フォロー、フォロワー)
-- ログイン機能があること
+' topic機能（一覧、作成、詳細、編集、更新、削除）があること
+' topicとuserが結びついていること
+' topicに投稿者が表示されること
+' コメント機能（作成、編集、更新、削除）があること
+' コメント機能が、ajaxで実装されていること　※更新・編集はajax化しなくて良い
+' topicとコメントは結びついていること
+' 友達機能があること(フォロー、フォロワー)
+' ログイン機能があること
 - ログイン機能には、メール認証機能があること
 - userに、プロフィール画像が登録できるようにすること
-- メッセージ機能があること
-- Facebook・Twitterでログインできるようにすること
+' メッセージ機能があること
+' Facebook・Twitterでログインできるようにすること
 - gitで管理していること
 - gitに上げるべきではないIDやパスワードなどは環境変数化すること
 - Githubで管理していること、そしてソースコードを送信したリポジトリを提出すること
-- エラーメッセージとフラッシュメッセージが適切に表示されること
-- 例外処理を行うこと
+' エラーメッセージとフラッシュメッセージが適切に表示されること
+' 例外処理を行うこと
 - 適切に日本語化すること
 - アプリに必要なシードデータの用意があること（Userやtopicやcomment)
 - awsで公開すること(Unicorn、nginxを使用すること)
 - Capistranoを使用して、自動デプロイを行うこと
+- TopPage
 
 [TODO]
 * gem install bundler
@@ -154,16 +155,16 @@ Cloud9をお使いの方は本番環境のみで登録をお願いします。(2
 --------------------------------------------------------------------------------
 [rails g]
 
-rails g model picture caption:text user:references
-rails generate migration add_picture_to_pictures picture:string
+rails g model topic content:text user:references
+rails g controller topics
+rails generate migration add_picture_to_topics picture:string
 mount_uploader :picture, PictureUploader
 
 user.rb
-has_many :pictures, dependent: :destroy
+has_many :topics, dependent: :destroy
 
 rake db:migrate
 
-rails g controller pictures
 
 add_picture_to_picture
 choose_new_or_edit を実装するか否か
@@ -188,6 +189,7 @@ replace 大文字と小文字を区別せずに置換していた
 ------------------------------------------------
 [画像アップロード]
 rails g uploader Picture
+rails g uploader Topic
 
 
 class Picture < ActiveRecord::Base
@@ -331,5 +333,15 @@ heroku config:add FACEBOOK_ID_PRODUCTION=メモしておいたID値
 heroku config:add FACEBOOK_SECRET_PRODUCTION=メモしておいたAppSecret値
 heroku config:add TWITTER_ID_PRODUCTION=achieve_producitonのConsumer Key（API Key）の値
 heroku config:add TWITTER_SECRET_PRODUCTION=achieve_producitonのConsumer Secret（API Secret）の値
+
+[Picture]
+assets/images/no_image.png
+
+[Bootstrap]
+gem 'twitter-bootstrap-rails'
+rails generate bootstrap:install static
+
+http://www.hts-web.biz/bootstrap-button/
+
 --------------------------------------------------------------------------------
 [[todo]]
