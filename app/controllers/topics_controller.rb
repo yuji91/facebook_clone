@@ -17,7 +17,7 @@ class TopicsController < ApplicationController
     @topic = Topic.new(topics_params)
     @topic.user_id = current_user.id
     if @topic.save
-      redirect_to topics_path, notice: "写真を投稿しました！"
+      redirect_to topics_path, notice: "投稿しました！"
       #TODO:mailer実装後に有効化
       #NoticeMailer.sendmail_topic(@topic).deliver
     else
