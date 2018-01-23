@@ -20,4 +20,8 @@ Rails.application.routes.draw do
   resources :relationships, only: [:create, :destroy]
   
   root 'top#index'
+  
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
 end

@@ -8,22 +8,33 @@
 </head>
 <body>
 <header>
-  <ul>
-    <% if user_signed_in? %>
-      <li><%= link_to "投稿一覧"          , topics_path                 %></li>
-      <li><%= link_to "メッセージ"        , conversations_path          %></li>
-      <li><%= link_to 'ユーザー一覧'      , users_path                  %></li>
-      <li><%= link_to 'アカウント情報変更', edit_user_registration_path %></li>
-      <li><%= link_to 'ログアウト'  , destroy_user_session_path, method: :delete %></li>
-    <% else %>
-      <li><%= link_to 'ログイン'    , new_user_session_path      %></li>
-      <li><%= link_to 'サインアップ', new_user_registration_path %></li>
-    <% end %>
-  </ul>
-  <section class="main-header col-md-8 col-md-offset-2">
-    <p class="flash"><%= notice %></p>
-  </section>
+  <nav class="navbar navbar-inverse">
+      <div class="navbar-header">
+          <button class="navbar-toggle" data-toggle="collapse" data-target="#collapse-target">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+          </button>
+      </div>
+      <div class="collapse navbar-collapse" id="collapse-target">
+          <ul class="nav navbar-nav">
+            <% if user_signed_in? %>
+              <li><%= link_to "投稿一覧"          , topics_path                 %></li>
+              <li><%= link_to "メッセージ"        , conversations_path          %></li>
+              <li><%= link_to 'ユーザー一覧'      , users_path                  %></li>
+              <li><%= link_to 'アカウント情報変更', edit_user_registration_path %></li>
+              <li><%= link_to 'ログアウト'  , destroy_user_session_path, method: :delete %></li>
+            <% else %>
+              <li><%= link_to 'ログイン'    , new_user_session_path      %></li>
+              <li><%= link_to 'サインアップ', new_user_registration_path %></li>
+            <% end %>
+          </ul>
 </header>
+      <section class="main-header col-md-8 col-md-offset-2">
+        <p class="flash"><%= notice %></p>
+      </section>
+
 <%= yield %>
 
 </body>
