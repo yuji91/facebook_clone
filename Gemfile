@@ -4,6 +4,8 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.5'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.20.0', group: :production
+gem 'sqlite3'
+#gem 'sqlite3', group: :development
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -61,7 +63,6 @@ gem 'rails-i18n'
 gem 'rails_12factor', group: :production
 
 gem 'rails_12factor', group: :production
-gem 'sqlite3', group: :development
 gem 'devise'
 gem 'faker'
 gem 'rails_admin'
