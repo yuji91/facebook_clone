@@ -80,3 +80,6 @@ gem 'unicorn'
 gem 'therubyracer', platforms: :ruby
 
 gem 'fog'
+
+gem 'dotenv-rails'
+gem 'unicorn'
