@@ -8,7 +8,7 @@
           @<%= topic.user.name %></h4></div>
           <div>
             <%= link_to(topic) do %>
-            　<%= image_tag topic.picture if topic.picture? %>
+            　<%= image_tag (topic.picture, size: "150x150" ) if topic.picture? %>
             <% end %>
           </div>
           <div class="col-md-4 col-sm-4"><h4>
