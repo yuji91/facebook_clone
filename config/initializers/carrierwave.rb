@@ -12,8 +12,8 @@ CarrierWave.configure do |config|
 
   case Rails.env
     when 'production'
-      config.fog_directory = 'f-clone-production-yuji91'
-      config.asset_host = 'https://s3-ap-northeast-1.amazonaws.com/f-clone-production-yuji91'
+      config.fog_directory = 'facebook-clone-production-20180202'
+      config.asset_host = 'https://s3-ap-northeast-1.amazonaws.com/facebook-clone-production-20180202'
     when 'development'
       config.fog_directory = 'facebook-clone-development-20180202'
       config.asset_host = 'https://s3-ap-northeast-1.amazonaws.com/facebook-clone-development-20180202'
