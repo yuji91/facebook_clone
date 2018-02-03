@@ -15,7 +15,7 @@ CarrierWave.configure do |config|
       config.fog_directory = 'f-clone-production-yuji91'
       config.asset_host = 'https://s3-ap-northeast-1.amazonaws.com/f-clone-production-yuji91'
     when 'development'
-      config.fog_directory = 'facebook-clone-development-20180202'
-      config.asset_host = 'https://s3-ap-northeast-1.amazonaws.com/facebook-clone-development-20180202'
+      config.fog_directory = '開発環境用のバケット名'
+      config.asset_host = 'https://s3-ap-northeast-1.amazonaws.com/開発環境用のバケット名'
   end
 end
